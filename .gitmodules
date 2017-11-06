@@ -1,0 +1,3 @@
+[submodule "src/dgraph"]
+	path = src/dgraph
+	url = git@github.com:alexloboda/dgraph.git
