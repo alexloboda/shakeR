@@ -1,0 +1,3 @@
+CXX_STD = CXX11
+SOURCES = $(wildcard dgraph/*.cpp *.cpp)
+OBJECTS = $(SOURCES:.cpp=.o)
