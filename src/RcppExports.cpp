@@ -6,19 +6,21 @@
 using namespace Rcpp;
 
 // shake_internal
-Rcpp::List shake_internal(Rcpp::List& graph);
-RcppExport SEXP _shaker_shake_internal(SEXP graphSEXP) {
+Rcpp::List shake_internal(Rcpp::List& graph, Rcpp::IntegerVector size, Rcpp::IntegerVector permutations);
+RcppExport SEXP _shaker_shake_internal(SEXP graphSEXP, SEXP sizeSEXP, SEXP permutationsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< Rcpp::List& >::type graph(graphSEXP);
-    rcpp_result_gen = Rcpp::wrap(shake_internal(graph));
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type size(sizeSEXP);
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type permutations(permutationsSEXP);
+    rcpp_result_gen = Rcpp::wrap(shake_internal(graph, size, permutations));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_shaker_shake_internal", (DL_FUNC) &_shaker_shake_internal, 1},
+    {"_shaker_shake_internal", (DL_FUNC) &_shaker_shake_internal, 3},
     {NULL, NULL, 0}
 };
 
