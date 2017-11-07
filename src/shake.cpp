@@ -1,14 +1,13 @@
 #include "dgraph/DynamicGraph.h"
-#include <Rcpp.h>
 #include <utility>
 #include <vector>
 #include "dgraph/DynamicGraph.h"
 #include <random>
 #include <algorithm>
+#include<Rcpp.h>
 
 namespace {
     using namespace std;
-    using namespace Rcpp;
     using dgraph::DynamicGraph;
     using dgraph::EdgeToken;
 
@@ -61,7 +60,7 @@ namespace {
             rng_edge = uniform_int_distribution<unsigned>(0, tokens.size() - 1);
             rng_inclass = vector<uniform_int_distribution<unsigned>>();
             for (int i = 0; i < index.size(); i++) {
-                rng_inclass.emplace_back(0, index[i].size());
+                rng_inclass.emplace_back(0, index[i].size() - 1);
             }
         }
 
@@ -75,6 +74,7 @@ namespace {
                 unsigned type = rindex[e1];
                 unsigned e2 = index[type][rng_inclass[type](mersenne)];
                 unsigned ends_direct = rng_for_ends(mersenne);
+                cout << e1 << "\t" << e2 << endl;
                 auto edge = ends[e1];
                 auto other = ends[e2];
                 unsigned v = edge.first;
@@ -125,8 +125,10 @@ namespace {
     };
 }
 
+using namespace Rcpp;
+
 // [[Rcpp::export]]
-Rcpp::List shake_internal(Rcpp::List& graph, 
+Rcpp::List shake_internal(Rcpp::List& graph,
                           Rcpp::IntegerVector size,
                           Rcpp::IntegerVector permutations) {
     auto from = as<NumericVector>(graph["from"]);
@@ -135,7 +137,7 @@ Rcpp::List shake_internal(Rcpp::List& graph,
 
     Shuffler shuffler(size[0]);
     for (int i = 0; i < from.size(); i++) {
-        shuffler.add_edge(from(i), to(i), classes(i));
+        shuffler.add_edge(from(i) - 1, to(i) - 1, classes(i));
     }
     for (unsigned i = 0; i < permutations[0]; i++) {
         shuffler.shake_it();
@@ -146,8 +148,8 @@ Rcpp::List shake_internal(Rcpp::List& graph,
     vector<unsigned> f;
     vector<unsigned> t;
     for (auto it = ends.begin(); it != ends.end(); it++){
-        f.push_back(it->first);
-        t.push_back(it->second);
+        f.push_back(it->first + 1);
+        t.push_back(it->second + 1);
     }
 
     Rcpp::List ret;
