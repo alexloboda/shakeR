@@ -4,5 +4,7 @@
 shake <- function(graph) {
   df <- as_data_frame(graph, what = "edges")[c("from", "to", "class")]
   res <- shake_internal(df, length(V(graph)), length(E(graph)) * 10)
-  res
+  g <- graph_from_edgelist(as.matrix(res))
+  edge.attributes(g) <- edge.attributes(graph)
+  g
 }

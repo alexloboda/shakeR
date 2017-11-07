@@ -147,8 +147,8 @@ Rcpp::List shake_internal(Rcpp::List& graph,
     vector<unsigned> f;
     vector<unsigned> t;
     for (int i = 0; i < permutation.size(); i++){
-        f.push_back(ends[permutation[i]].first);
-        t.push_back(ends[permutation[i]].second);
+        f.push_back(ends[permutation[i]].first + 1);
+        t.push_back(ends[permutation[i]].second + 1);
     }
 
     IntegerVector from_new(f.begin(), f.end());
