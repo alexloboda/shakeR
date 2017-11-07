@@ -74,7 +74,6 @@ namespace {
                 unsigned type = rindex[e1];
                 unsigned e2 = index[type][rng_inclass[type](mersenne)];
                 unsigned ends_direct = rng_for_ends(mersenne);
-                cout << e1 << "\t" << e2 << endl;
                 auto edge = ends[e1];
                 auto other = ends[e2];
                 unsigned v = edge.first;
@@ -137,7 +136,7 @@ Rcpp::List shake_internal(Rcpp::List& graph,
 
     Shuffler shuffler(size[0]);
     for (int i = 0; i < from.size(); i++) {
-        shuffler.add_edge(from(i) - 1, to(i) - 1, classes(i));
+        shuffler.add_edge(from(i) - 1, to(i) - 1, classes(i) - 1);
     }
     for (unsigned i = 0; i < permutations[0]; i++) {
         shuffler.shake_it();
@@ -147,14 +146,14 @@ Rcpp::List shake_internal(Rcpp::List& graph,
     auto ends = shuffler.get_edges();
     vector<unsigned> f;
     vector<unsigned> t;
-    for (auto it = ends.begin(); it != ends.end(); it++){
-        f.push_back(it->first + 1);
-        t.push_back(it->second + 1);
+    for (int i = 0; i < permutation.size(); i++){
+        f.push_back(ends[permutation[i]].first);
+        t.push_back(ends[permutation[i]].second);
     }
 
-    Rcpp::List ret;
-    ret["edge_num"] = IntegerVector(permutation.begin(), permutation.end());
-    ret["from"] = IntegerVector(f.begin(), f.end());
-    ret["to"] = IntegerVector(t.begin(), t.end());
-    return ret;
+    IntegerVector from_new(f.begin(), f.end());
+    IntegerVector to_new(t.begin(), t.end());
+    Rcpp::DataFrame df = DataFrame::create(Named("from") = from_new,
+                                           Named("to") = to_new);
+    return df;
 }
