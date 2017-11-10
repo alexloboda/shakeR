@@ -2,6 +2,7 @@ context("shaker")
 
 test_that("shaker doesn't crash on simple graph", {
   g <- make_ring(4)
+  V(g)$name <- letters[1:4]
   E(g)$class <- 1
   shake(g)
 })

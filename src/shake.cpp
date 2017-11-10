@@ -9,9 +9,9 @@ Rcpp::List shake_internal(Rcpp::List& graph,
                           Rcpp::IntegerVector size,
                           Rcpp::IntegerVector permutations,
                           Rcpp::IntegerVector hard_stop) {
-    auto from = as<NumericVector>(graph["from"]);
-    auto to = as<NumericVector>(graph["to"]);
-    auto classes = as<NumericVector>(graph["class"]);
+    auto from = as<IntegerVector>(graph["from"]);
+    auto to = as<IntegerVector>(graph["to"]);
+    auto classes = as<IntegerVector>(graph["class"]);
 
     Shuffler shuffler(size[0], hard_stop[0]);
     for (int i = 0; i < from.size(); i++) {
