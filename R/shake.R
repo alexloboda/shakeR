@@ -12,7 +12,8 @@ shake <- function(graph, number_of_permutations = length(E(graph)) * 10,
                   class = E(graph)$class)
   num_nodes <- length(V(graph))
   res <- shake_internal(df, num_nodes, number_of_permutations, hard_stop)
-  g <- graph_from_edgelist(as.matrix(res))
+  g <- graph_from_edgelist(as.matrix(res), directed = FALSE)
   edge.attributes(g) <- edge.attributes(graph)
+  vertex.attributes(g) <- vertex.attributes(graph)
   g
 }
