@@ -4,7 +4,7 @@ Version: 0.0.0.9000
 Authors@R:
   person("Alexander", "Loboda", email = "loboda@rain.ifmo.ru", role = c("aut", "cre"))
 Description: Just another graph shaker
-Depends: R (>= 3.4)
+Depends: R (>= 3.3)
 Imports:
   igraph,
     Rcpp
